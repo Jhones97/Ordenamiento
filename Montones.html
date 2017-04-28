@@ -1,0 +1,78 @@
+<HTML>
+
+<HEAD>
+
+<TITLE>Ordenamiento por montones</TITLE>
+
+</HEAD>
+
+<BODY>
+<BODY BGCOLOR="BLACK">
+<BODY BACKGROUND="Imagen.png" style="background-repeat: no-repeat; background-position: center center;">
+<FONT FACE="Arial" SIZE="10" COLOR="FFFF00">ORDENAMIENTO POR MONTONES</FONT><BR><BR>
+<FONT FACE="Arial" SIZE="2" COLOR="FFFF00">
+package metodos;<BR>
+
+import java.util.ArrayList;<BR>
+
+/*<BR>
+Es un algoritmo de ordenamiento no recursivo, no estable, con complejidad computacional O(n\log n).
+Este algoritmo consiste en almacenar todos los elementos del vector a ordenar en un monticulo, y luego extraer el nodo
+que queda como nodo raiz del monticulo en sucesivas iteraciones obteniendo el conjunto ordenado.<BR>
+*/<BR>
+
+public class monticulo extends metodos_ord {<BR>
+    
+    public monticulo(ArrayList<Integer> lis){<BR>
+        super(lis);<BR>
+    }<BR>
+    
+    @Override<BR>
+    public void ordenar(){<BR>
+        long time_s = System.currentTimeMillis();<BR>
+        this.lista_desordenada = heap_sort(this.lista_desordenada);<BR>
+        long time_e = System.currentTimeMillis();<BR>
+        this.tiempo_ejecucion = time_e - time_s;<BR>
+    }
+    <BR>
+    private ArrayList<Integer> heap_sort(ArrayList<Integer> lis){<BR>
+        
+        int fin = lis.size();<BR>
+        int start = ((int)(fin / 2)) - 1;<BR>
+        for(int i = start; i >= 0; i--){<BR>
+            this.heapify(lis,fin,i);<BR>
+        }<BR>
+        for(int i = fin-1; i > 0; i--){<BR>
+            this.swap(lis,i,0);<BR>
+            this.heapify(lis, i, 0);<BR>
+        }<BR>
+        
+        return lis;<BR>
+    }<BR>
+    
+    private void swap(ArrayList<Integer> lis, int i, int j){<BR>
+        int aux = lis.get(i);<BR>
+        lis.set(i, lis.get(j));<BR>
+        lis.set(j, aux);<BR>
+    }<BR>
+    
+    private void heapify(ArrayList<Integer> lis, int fin, int i){<BR>
+        int l = 2 * i + 1;<BR>
+        int r = 2 * (i + 1);<BR>
+        int max = i;<BR>
+        if((l < fin) && (lis.get(i) < lis.get(l))){<BR>
+            max = l;<BR>
+        }<BR>
+        if((r < fin) && (lis.get(max) < lis.get(r))){<BR>
+            max = r;<BR>
+        }<BR>
+        if(max != i){<BR>
+            this.swap(lis,i,max);<BR>
+            this.heapify(lis, fin, max);<BR>
+        }<BR>
+    }<BR>
+}<BR>
+</FONT>
+</BODY>
+
+</HTML>

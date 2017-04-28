@@ -1,0 +1,76 @@
+<HTML>
+
+<HEAD>
+
+<TITLE>Ordenamiento rapido</TITLE>
+
+</HEAD>
+
+<BODY>
+<BODY BGCOLOR="BLACK">
+<BODY BACKGROUND="Imagen.png" style="background-repeat: no-repeat; background-position: center center;">
+<FONT FACE="Arial" SIZE="10" COLOR="FFFF00">ORDENAMIENTO RAPIDO</FONT><BR><BR>
+<FONT FACE="Arial" SIZE="2" COLOR="FFFF00">
+package metodos;<BR>
+
+import java.util.ArrayList;<BR>
+
+/*<BR>
+Es un algoritmo basado en la tecnica de divide y venceras, que permite, en promedio, ordenar n elementos en un
+tiempo proporcional a n log n.<BR>
+ */<BR>
+
+public class rapido extends metodos_ord{<BR>
+    
+    public rapido(ArrayList<Integer> lis){<BR>
+        super(lis);<BR>
+    }<BR>
+    
+    @Override<BR>
+    public void ordenar(){<BR>
+        long time_s = System.currentTimeMillis();<BR>
+        this.lista_desordenada = this.quicksort(this.lista_desordenada);<BR>
+        long time_e = System.currentTimeMillis();<BR>
+        this.tiempo_ejecucion = time_e - time_s;<BR>
+    }<BR>
+    
+    private ArrayList<Integer> quicksort(ArrayList<Integer> lis){<BR>
+        int izq = 0;<BR>
+        int der = lis.size()-1;<BR>
+        ArrayList<Integer> res = quick(lis,izq,der);<BR>
+        return res;<BR>
+    }<BR>
+    
+    private ArrayList<Integer> quick(ArrayList<Integer> lis,int izq,int der){<BR>
+        int i = izq;<BR>
+        int j = der;<BR>
+        int m = (int)((izq + der) / 2);<BR>
+        int x = lis.get(m);<BR>
+        while(i <= j){<BR>
+            while(lis.get(i) < x && j <= der){<BR>
+                i++;<BR>
+            }<BR>
+            while(x < lis.get(j) && j > izq){<BR>
+                j--;<BR>
+            }<BR>
+            if(i <= j){<BR>
+                int aux = lis.get(i);<BR>
+                lis.set(i, lis.get(j));<BR>
+                lis.set(j, aux);<BR>
+                i++;<BR>
+                j--;<BR>
+            }<BR>
+            if(izq < j){<BR>
+                this.quick(lis, izq, j);<BR>
+            }<BR>
+            if(i < der){<BR>
+                this.quick(lis, i, der);<BR>
+            }<BR>
+        }<BR>
+        return lis;<BR>
+    }<BR>
+}<BR>
+</FONT>
+</BODY>
+
+</HTML>

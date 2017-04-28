@@ -1,0 +1,143 @@
+<HTML>
+
+<HEAD>
+
+<TITLE>Ordenamiento por mezcla</TITLE>
+
+</HEAD>
+
+<BODY>
+<BODY BGCOLOR="BLACK">
+<BODY BACKGROUND="Imagen.png" style="background-repeat: no-repeat; background-position: center center;">
+<FONT FACE="Arial" SIZE="10" COLOR="FFFF00">ORDENAMIENTO POR MEZCLA</FONT><BR><BR>
+<FONT FACE="Arial" SIZE="2" COLOR="FFFF00">
+package metodos;<BR>
+
+import java.util.ArrayList;<BR>
+
+/*<BR>
+Es un algoritmo de ordenamiento en el que se cuenta el numero de elementos de cada clase para luego ordenarlos.
+Solo puede ser utilizado por tanto para ordenar elementos que sean contables (como los numeros enteros en un
+determinado intervalo, pero no los numeros reales)
+ */<BR>
+
+public class conteo extends metodos_ord{<BR>
+    
+    public conteo(ArrayList<Integer> lis){<BR>
+        super(lis);<BR>
+    }<BR>
+    
+    @Override<BR>
+    public void ordenar(){<BR>
+        long time_s = System.currentTimeMillis();<BR>
+        this.lista_desordenada = this.couting_sort(this.lista_desordenada);<BR>
+        long time_e = System.currentTimeMillis();<BR>
+        this.tiempo_ejecucion = time_e - time_s;<BR>
+    }<BR>
+    
+    private ArrayList<Integer> couting_sort(ArrayList<Integer> lis){<BR>
+        
+        ArrayList<ArrayList<Integer>> tmp = this.sep_num(lis);<BR>
+        
+        ArrayList<Integer> res = new ArrayList<Integer>();<BR>
+        ArrayList<Integer> pos = tmp.get(0);<BR>
+        ArrayList<Integer> neg = tmp.get(1);<BR>
+        
+        ArrayList<Integer> N_neg = this.inv_neg(neg);<BR>
+        
+        ArrayList<Integer> res_pos = this.couting(pos);<BR>
+        ArrayList<Integer> res_neg = this.couting(N_neg);<BR>
+        
+        ArrayList<Integer> Nres_neg = this.vol_neg_ord(res_neg);<BR>
+        
+        for(int i = 0; i < Nres_neg.size(); i++){<BR>
+            res.add(Nres_neg.get(i));<BR>
+        }<BR>
+        for(int i = 0; i < res_pos.size(); i++){<BR>
+            res.add(res_pos.get(i));<BR>
+        }<BR>
+        return res;<BR>
+    }<BR>
+    
+    private ArrayList<Integer> couting(ArrayList<Integer> lis){<BR>
+
+        int n = lis.size();<BR>
+        int m = this.max_val(lis) + 1;<BR>
+        ArrayList<Integer> count = new ArrayList<Integer>();<BR>
+        for(int i = 0; i < m; i++){<BR>
+            count.add(0);<BR>
+        }<BR>
+        for(int j = 0; j < n; j++){<BR>
+            int tmp = lis.get(j);<BR>
+            int tmp2 = count.get(tmp);<BR>
+            tmp2++;<BR>
+            count.set(tmp,tmp2);<BR>
+        }<BR>
+        
+        int i = 0;<BR>
+        
+        for(int k = 0; k < m; k++){<BR>
+            for(int l = 0; l < count.get(k); l++){<BR>
+                lis.set(i, k);<BR>
+                i++;<BR>
+            }<BR>
+        }<BR>
+        
+        return lis;<BR>
+    }<BR>
+    
+    private ArrayList<ArrayList<Integer>> sep_num(ArrayList<Integer> lis){<BR>
+        
+        ArrayList<ArrayList<Integer>> res = new ArrayList<ArrayList<Integer>>();<BR>
+        ArrayList<Integer> pos = new ArrayList<Integer>();<BR>
+        ArrayList<Integer> neg = new ArrayList<Integer>();<BR>
+        
+        for(int i=0; i<lis.size(); i++){<BR>
+            if(lis.get(i) >= 0){<BR>
+                pos.add(lis.get(i));<BR>
+            }<BR>
+            else{<BR>
+                neg.add(lis.get(i));<BR>
+            }<BR>
+        }<BR>
+        
+        res.add(pos);<BR>
+        res.add(neg);<BR>
+        
+        return res;<BR>
+    }<BR>
+    
+    private ArrayList<Integer> vol_neg_ord(ArrayList<Integer> neg){<BR>
+        ArrayList<Integer> res = new ArrayList<Integer>();<BR>
+        if (neg != null){<BR>
+            for(int i = neg.size()-1; i >= 0; i-- ){<BR>
+                res.add(neg.get(i)* -1);<BR>
+            }<BR>
+        }<BR>
+        return res;<BR>
+    }<BR>
+    
+    private ArrayList<Integer> inv_neg(ArrayList<Integer> neg){<BR>
+        if(neg != null){<BR>
+            for(int i=0; i<neg.size(); i++){<BR>
+                neg.set(i, neg.get(i) * -1);<BR>
+            }<BR>
+        }<BR>
+        return neg;<BR>
+    }<BR>
+    
+    private int max_val(ArrayList<Integer> lis){<BR>
+        int max = 0;<BR>
+        for(int i = 0; i < lis.size(); i++){<BR>
+            if(max < lis.get(i)){<BR>
+                max = lis.get(i);<BR>
+            }<BR>
+        }<BR>
+        return max;<BR>
+    }<BR>
+    
+}<BR>
+</FONT>
+</BODY>
+
+</HTML>

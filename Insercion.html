@@ -1,0 +1,49 @@
+﻿<HTML>
+
+<HEAD>
+
+<TITLE>Ordenamiento por insercion</TITLE>
+
+</HEAD>
+
+<BODY>
+<BODY BGCOLOR="BLACK">
+<BODY BACKGROUND="Imagen.png" style="background-repeat: no-repeat; background-position: center center;">
+<FONT FACE="Arial" SIZE="10" COLOR="FFFF00">ORDENAMIENTO POR INSERCION</FONT><BR><BR>
+<FONT FACE="Arial" SIZE="2" COLOR="FFFF00">
+package metodos;<BR>
+
+import java.util.ArrayList;<BR>
+
+/*<BR>
+Es una manera muy natural de ordenar para un ser humano, y puede usarse facilmente para ordenar un mazo de cartas
+ numeradas en forma arbitraria. Requiere O(n²) operaciones para ordenar una lista de n elementos.
+*/<BR>
+
+public class insercion extends metodos_ord{<BR>
+
+    public insercion(ArrayList<Integer> lis) {<BR>
+        super(lis);<BR>
+    }<BR>
+    
+    @Override<BR>
+    public void ordenar(){<BR>
+        long time_s = System.currentTimeMillis();<BR>
+        for(int i = 0; i < this.get_tam()-1; i++){<BR>
+            for(int j = 0; j < this.get_tam()-1; j++){<BR>
+                int a = this.lista_desordenada.get(j);<BR>
+                int b = this.lista_desordenada.get(j+1);<BR>
+                if(a>b){<BR>
+                    this.lista_desordenada.set(j, b);<BR>
+                    this.lista_desordenada.set(j+1,a);<BR>
+                }<BR>
+            }<BR>
+        }<BR>
+        long time_e = System.currentTimeMillis();<BR>
+        this.tiempo_ejecucion = time_e - time_s;<BR>
+    }<BR>
+}<BR>
+</FONT>
+</BODY>
+
+</HTML>

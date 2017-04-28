@@ -1,0 +1,190 @@
+<HTML>
+
+<HEAD>
+
+<TITLE>Ordenamiento por radix sort</TITLE>
+
+</HEAD>
+
+<BODY>
+<BODY BGCOLOR="BLACK">
+<BODY BACKGROUND="Imagen.png" style="background-repeat: no-repeat; background-position: center center;">
+<FONT FACE="Arial" SIZE="10" COLOR="FFFF00">ORDENAMIENTO POR RADIX SORT</FONT><BR><BR>
+<FONT FACE="Arial" SIZE="2" COLOR="FFFF00">
+package metodos;<BR>
+
+import java.util.ArrayList;<BR>
+
+/*<BR>
+Es un algoritmo de ordenamiento que ordena enteros procesando sus digitos de forma individual.
+Como los enteros pueden representar cadenas de caracteres y, especialmente, numeros en punto flotante especialmente
+formateados, radix sort no esta limitado solo a los enteros.<BR>
+*/<BR>
+
+public class radix extends metodos_ord{<BR>
+    
+    public radix(ArrayList<Integer> lis){<BR>
+        super(lis);<BR>
+    }<BR>
+    
+    @Override<BR>
+    public void ordenar(){<BR>
+        long time_s = System.currentTimeMillis();<BR>
+        this.lista_desordenada = this.radixsort(this.lista_desordenada);<BR>
+        long time_e = System.currentTimeMillis();<BR>
+        this.tiempo_ejecucion = time_e - time_s;<BR>
+    }<BR>
+    
+    private ArrayList<Integer> radixsort(ArrayList<Integer> lis){<BR>
+        
+        ArrayList<Integer> res = new ArrayList<Integer>();<BR>
+        
+        ArrayList<ArrayList<Integer>> tmp = this.pos_neg(lis);<BR>
+        
+        ArrayList<Integer> pos = tmp.get(0);<BR>
+        ArrayList<Integer> neg = tmp.get(1);<BR>
+        
+        neg = this.conv_pos(neg);<BR>
+        
+        int max_pos = this.det_digitos(pos);<BR>
+        int max_neg = this.det_digitos(neg);<BR>
+        
+        int max = 0;<BR>
+        
+        if (max_pos >= max_neg){<BR>
+            max = max_pos;<BR>
+        }<BR>
+        else{<BR>
+            max = max_neg;<BR>
+        }<BR>
+        
+        for(int i = 0; i < max; i++){<BR>
+            
+            ArrayList<ArrayList<Integer>> cola = new ArrayList<ArrayList<Integer>>();<BR>
+            
+            for(int j = 0; j < 10; j++){<BR>
+                ArrayList<Integer> l = new ArrayList<Integer>();<BR>
+                cola.add(l);<BR>
+            }<BR>
+            pos = this.radix_sort_lsd(pos, cola, i+1);<BR>
+        }<BR>
+        
+        for(int i = 0; i < max; i++){<BR>
+          
+            ArrayList<ArrayList<Integer>> cola = new ArrayList<ArrayList<Integer>>();<BR>
+            
+            for(int j = 0; j < 10; j++){<BR>
+                ArrayList<Integer> l = new ArrayList<Integer>();<BR>
+                cola.add(l);<BR>
+            }<BR>
+            neg = this.radix_sort_lsd(neg, cola, i+1);<BR>
+        }<BR>
+        
+        ArrayList<Integer> tmp2 = new ArrayList<Integer>();<BR>
+        
+        for(int i = neg.size() - 1; i >= 0; i--){<BR>
+            tmp2.add(neg.get(i) * -1);<BR>
+        }<BR>
+        neg = tmp2;<BR>
+        
+        for(int i = 0; i < neg.size(); i++){<BR>
+            res.add(neg.get(i));<BR>
+        }<BR>
+        for(int i = 0; i < pos.size(); i++){<BR>
+            res.add(pos.get(i));<BR>
+        }<BR>
+        
+        return res;<BR>
+    }<BR>
+    
+    private ArrayList<Integer> radix_sort_lsd(ArrayList<Integer> lis, ArrayList<ArrayList<Integer>> cola, int n){<BR>
+        
+        int div = 1;<BR>
+        for(int i = 0; i < n; i++){<BR>
+            div = 10 * div;<BR>
+        }<BR>
+        
+        for(int i = 0; i < lis.size(); i++){<BR>
+            if (div == 10){<BR>
+                int pos = lis.get(i) % 10;<BR>
+                cola.get(pos).add(lis.get(i));<BR>
+            }<BR>
+            else{<BR>
+                int var = (int) (lis.get(i)/ (div / 10));<BR>
+                if (var == 0){<BR>
+                    cola.get(0).add(lis.get(i));<BR>
+                }<BR>
+                else{<BR>
+                    int mod = (int)(lis.get(i) % div);<BR>
+                    int pos = (int)(mod/(div/10));<BR>
+                    cola.get(pos).add(lis.get(i));<BR>
+                }<BR>
+            }<BR>
+        }<BR>
+        ArrayList<Integer> res = new ArrayList<Integer>();<BR>
+        
+        for(int i = 0; i < cola.size(); i++){<BR>
+            for(int j = 0; j < cola.get(i).size(); j++){<BR>
+                if(cola.get(i).get(j) != null){<BR>
+                    res.add(cola.get(i).get(j));<BR>
+                }<BR>
+            }<BR>
+        }<BR>
+        
+        return res;<BR>
+    }<BR>
+    
+    private ArrayList<Integer> conv_pos(ArrayList<Integer> lis){<BR>
+        
+        ArrayList<Integer> res = new ArrayList<Integer>();<BR>
+        
+        for(int i = 0; i < lis.size(); i++){<BR>
+            res.add(lis.get(i)* -1);<BR>
+        }<BR>
+        
+        return res;<BR>
+    }<BR>
+    
+    private ArrayList<ArrayList<Integer>> pos_neg(ArrayList<Integer> lis){<BR>
+        
+        ArrayList<ArrayList<Integer>> res = new ArrayList<ArrayList<Integer>>();<BR>
+        
+        ArrayList<Integer> pos = new ArrayList<Integer>();<BR>
+        ArrayList<Integer> neg = new ArrayList<Integer>();<BR>
+        
+        for(int i = 0; i < lis.size(); i++){<BR>
+            if(lis.get(i) >= 0){<BR>
+                pos.add(lis.get(i));<BR>
+            }<BR>
+            else{<BR>
+                neg.add(lis.get(i));<BR>
+            }<BR>
+        }<BR>
+        
+        res.add(pos);<BR>
+        res.add(neg);<BR>
+        
+        return res;<BR>
+    }<BR>
+    
+    private int det_digitos(ArrayList<Integer> lis){<BR>
+        int digitos = 0;<BR>
+        for(int i = 0; i < lis.size(); i++){<BR>
+            int tmp = con_dig(lis.get(i));<BR>
+            if(tmp > digitos){<BR>
+                digitos = tmp;<BR>
+            }<BR>
+        }<BR>
+        return digitos;<BR>
+    }<BR>
+    
+    private int con_dig(int num){<BR>
+        String a = Integer.toString(num);<BR>
+        int tam = a.length();<BR>
+        return tam;<BR>
+    }<BR>
+}<BR>
+</FONT>
+</BODY>
+
+</HTML>

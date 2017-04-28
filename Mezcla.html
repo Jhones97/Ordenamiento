@@ -1,0 +1,99 @@
+<HTML>
+
+<HEAD>
+
+<TITLE>Ordenamiento por mezcla</TITLE>
+
+</HEAD>
+
+<BODY>
+<BODY BGCOLOR="BLACK">
+<BODY BACKGROUND="Imagen.png" style="background-repeat: no-repeat; background-position: center center;">
+<FONT FACE="Arial" SIZE="10" COLOR="FFFF00">ORDENAMIENTO POR MEZCLA</FONT><BR><BR>
+<FONT FACE="Arial" SIZE="2" COLOR="FFFF00">
+package metodos;<BR>
+
+import java.util.ArrayList;<BR>
+
+/*<BR>
+Es un algoritmo de ordenamiento externo estable basado en la tecnica divide y venceras.
+Es de complejidad O(n log n).<BR>
+*/<BR>
+
+public class mezcla extends metodos_ord{<BR>
+    
+    public mezcla(ArrayList<Integer> lis){<BR>
+        super(lis);<BR>
+    }<BR>
+    
+    @Override<BR>
+    public void ordenar(){<BR>
+        long time_s = System.currentTimeMillis();<BR>
+        this.lista_desordenada = this.ordenar_lis(this.lista_desordenada);<BR>
+        long time_e = System.currentTimeMillis();<BR>
+        this.tiempo_ejecucion = time_e - time_s;<BR>
+    }<BR>
+    
+    private ArrayList<Integer> ordenar_lis(ArrayList<Integer> lis){<BR>
+        int n = lis.size();<BR>
+        int m = (int) n/2;<BR>
+        
+        if (n==1){<BR>
+            return lis;<BR>
+        }<BR>
+        
+        ArrayList<Integer> left = new ArrayList<Integer>();<BR>
+        for(int i = 0; i < m; i++){<BR>
+            int tmp = lis.get(i);<BR>
+            left.add(tmp);<BR>
+        }<BR>
+        
+        left = this.ordenar_lis(left);<BR>
+        
+        ArrayList<Integer> right = new ArrayList<Integer>();<BR>
+        for(int i = m; i < lis.size(); i++){<BR>
+            int tmp = lis.get(i);<BR>
+            right.add(tmp);<BR>
+        }<BR>
+        
+        right = this.ordenar_lis(right);<BR>
+        
+        return this.merge(left,right);<BR>
+    }<BR>
+    
+    private ArrayList<Integer> merge(ArrayList<Integer> left,ArrayList<Integer> right){<BR>
+        ArrayList<Integer> result = new ArrayList<Integer>();<BR>
+        int i = 0;<BR>
+        int j = 0;<BR>
+        int len_left = left.size(); <BR>
+        int len_right = right.size(); <BR>
+ 
+        while(i < len_left || j < len_right){ <BR>
+            if(i >= len_left){ <BR>
+                result.add(right.get(j)); <BR>
+                j = j + 1;<BR>
+            }<BR>
+            else{<BR>
+                if(j >= len_right){ <BR>
+                    result.add(left.get(i)); <BR>
+                    i = i + 1;<BR>
+                }<BR>
+                else{<BR>
+                    if(left.get(i) < right.get(j)){ <BR>
+                        result.add(left.get(i)); <BR>
+                        i = i + 1;<BR>
+                    }<BR>
+                    else{ <BR>
+                        result.add(right.get(j)); <BR>
+                        j = j + 1;<BR>
+                    }<BR>
+                }<BR>
+            }<BR>
+        }<BR>
+        return result;<BR>
+    }   <BR>
+}<BR>
+</FONT>
+</BODY>
+
+</HTML>
